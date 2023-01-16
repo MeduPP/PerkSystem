@@ -59,6 +59,14 @@ public class PerkItem : BasePerkItem
             (node as CommonNode).nodeState = NodeState.Unlocked;
             _image.color = unlockedColor;
             OnPerkStateChanged?.Invoke();
+            return;
+        }
+
+        if ((node as CommonNode).nodeState == NodeState.Unlocked)
+        {
+            (node as CommonNode).TryForget();
+            OnPerkStateChanged?.Invoke();
+            return;
         }
     }
 }
