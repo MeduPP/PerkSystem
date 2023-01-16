@@ -1,41 +1,33 @@
-
 using System.Collections.Generic;
 
 public enum NodeState
 {
     Unlocked,
     Locked,
-    CanUnlock,
-    CanForget
+    CanUnlock
 }
 
 namespace PerkSystem
 {
     public class CommonNode : Node
     {
-        public NodeState nodeState = NodeState.Locked;
+        private NodeState _nodeState = NodeState.Locked;
+        public NodeState nodeState { get { return _nodeState; } private set { _nodeState = value; } }
 
-        public void NeighborsCheck()
+        public void UnlockPerk()
         {
-            visitedNodes.AddLast(this);
+            if (!(nodeState == NodeState.CanUnlock))
+                return;
+
+            nodeState = NodeState.Unlocked;
 
             foreach (var node in LinkedNodes)
             {
-                if (!(node is CommonNode))
-                    continue;
-
-                if (visitedNodes.Contains(node))
-                    continue;
-
-                if ((node as CommonNode).nodeState == NodeState.Locked)
+                if(node is CommonNode)
                 {
-                    (node as CommonNode).nodeState = NodeState.CanUnlock;
-                    continue;
-                }
+                    if(!((node as CommonNode).nodeState == NodeState.Unlocked))
+                        (node as CommonNode).nodeState = NodeState.CanUnlock;
 
-                if ((node as CommonNode).nodeState == NodeState.Unlocked)
-                {
-                    (node as CommonNode).NeighborsCheck();
                 }
             }
         }
@@ -53,9 +45,32 @@ namespace PerkSystem
 
                     if ((node as CommonNode).nodeState == NodeState.CanUnlock)
                     {
-                        (node as CommonNode).nodeState = NodeState.Locked;
+                        (node as CommonNode).SetNeighborsUnlockable();
                     }
                 }
+            }
+        }
+
+        public void SetNeighborsUnlockable()
+        {
+            foreach (var node in LinkedNodes)
+            {
+                if (node is BaseNode)
+                {
+                    nodeState = NodeState.CanUnlock;
+                    return;
+                }
+
+                if (!(node is CommonNode))
+                    continue;
+
+                if ((node as CommonNode).nodeState == NodeState.Unlocked)
+                {
+                    nodeState = NodeState.CanUnlock;
+                    return;
+                }
+
+                nodeState = NodeState.Locked;
             }
         }
 
@@ -70,7 +85,7 @@ namespace PerkSystem
                 {
                     List<Node> visitedNodes = new List<Node>();
                     visitedNodes.Add(this);
-                    if(!(node as CommonNode).CanReachRootNode(visitedNodes))
+                    if (!(node as CommonNode).CanReachRootNode(visitedNodes))
                         return false;
                 }
             }
@@ -91,7 +106,7 @@ namespace PerkSystem
                     continue;
 
                 if ((node as CommonNode).nodeState == NodeState.Unlocked)
-                    if((node as CommonNode).CanReachRootNode(visitedNodes))
+                    if ((node as CommonNode).CanReachRootNode(visitedNodes))
                         return true;
             }
             return false;

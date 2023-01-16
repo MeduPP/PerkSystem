@@ -1,51 +1,43 @@
 using PerkSystem;
 using UnityEngine;
 
-public class BaseItem : BasePerkItem
+public class BaseItem : PerkItem
 {
     public override void Awake()
     {
-        base.Awake();
         node = new BaseNode();
+        base.Awake();
     }
 
     private void Start()
     {
+        SetLinkedNodes();
         //Set all links from view to system
         foreach(var perk in _allPerks)
         {
             perk.SetLinkedNodes();
+            Debug.Log("1");
         }
 
-        CheckNodeState();
-
-        //update view state
-        foreach(var perk in _allPerks)
-        {
-            if (perk is PerkItem)
-                (perk as PerkItem).UpdateState();
-        }
+        (node as BaseNode).SetNeighboorState();
+        CommonPerkItem.OnPerkStateChanged.Invoke();
     }
-
-    [ContextMenu("CheckState")]
     private void CheckNodeState()
     {
-        (node as BaseNode).CheckNodesState();
-
         foreach (var perk in _allPerks)
         {
-            if (perk is PerkItem)
-                (perk as PerkItem).UpdateState();
+            if (perk is CommonPerkItem)
+                (perk as CommonPerkItem).UpdateState();
         }
     }
 
 
     private void OnEnable()
     {
-        PerkItem.OnPerkStateChanged += CheckNodeState;
+        CommonPerkItem.OnPerkStateChanged += CheckNodeState;
     }
     private void OnDisable()
     {
-        PerkItem.OnPerkStateChanged -= CheckNodeState;
+        CommonPerkItem.OnPerkStateChanged -= CheckNodeState;
     }
 }

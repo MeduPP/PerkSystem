@@ -9,9 +9,6 @@ public class LinkDrower : MonoBehaviour
 
     private List<GameObject> _lines = new List<GameObject>();
 
-    private Color baseColor;
-    private Color activeColor;
-
     private void Start()
     {
         LineDrower();
