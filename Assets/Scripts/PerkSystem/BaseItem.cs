@@ -3,22 +3,40 @@ using UnityEngine;
 
 public class BaseItem : BasePerkItem
 {
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         node = new BaseNode();
-        Debug.Log(_allPerks.Count + "  !!!");
     }
 
     private void Start()
     {
-        SetLinkedNodes();
+        //Set all links from view to system
+        foreach(var perk in _allPerks)
+        {
+            perk.SetLinkedNodes();
+        }
+
+        CheckNodeState();
+
+        //update view state
+        foreach(var perk in _allPerks)
+        {
+            if (perk is PerkItem)
+                (perk as PerkItem).UpdateState();
+        }
     }
 
     [ContextMenu("CheckState")]
     private void CheckNodeState()
     {
         (node as BaseNode).CheckNodesState();
-        Debug.Log("Triggered");
+
+        foreach (var perk in _allPerks)
+        {
+            if (perk is PerkItem)
+                (perk as PerkItem).UpdateState();
+        }
     }
 
 

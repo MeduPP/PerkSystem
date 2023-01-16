@@ -11,22 +11,30 @@ public class PerkItem : BasePerkItem
     [SerializeField] private Color canUnlockColor;
     [SerializeField] private Color lockedColor;
 
-    private Image _image;
-
     public static Action OnPerkStateChanged;
 
-    private void Awake()
-    {
-        node = new CommonNode();
-        _image = GetComponent<Image>();
+    private Image _image;
 
+    public override void Awake()
+    {
+        base.Awake();
+        _image = GetComponent<Image>();
+        node = new CommonNode();
     }
+
     private void Start()
     {
-        SetLinkedNodes();
+        List<Node> nodes = new List<Node>();
+        _linkedPerks.ForEach(
+            (item) =>
+            {
+                nodes.Add(item.node);
+            }
+            );
+        (node as CommonNode).SetLinkedNodes(nodes);
     }
 
-    private void UpdateState()
+    public void UpdateState()
     {
         switch ((node as CommonNode).nodeState)
         {
@@ -44,11 +52,6 @@ public class PerkItem : BasePerkItem
         }
     }
 
-    private void Update()
-    {
-        UpdateState();
-    }
-
     public void TryUnlock()
     {
         if ((node as CommonNode).nodeState == NodeState.CanUnlock)
@@ -57,6 +60,5 @@ public class PerkItem : BasePerkItem
             _image.color = unlockedColor;
             OnPerkStateChanged?.Invoke();
         }
-        Debug.Log((node as CommonNode).nodeState);
     }
 }

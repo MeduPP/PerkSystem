@@ -8,12 +8,11 @@ public abstract class BasePerkItem : MonoBehaviour
     public List<BasePerkItem> _linkedPerks = new List<BasePerkItem>();
     public Node node;
 
-    protected BasePerkItem()
+    public virtual void Awake()
     {
         _allPerks.AddLast(this);
     }
         
-
     public void SetLinkedNodes()
     {
         List<Node> nodes = new List<Node>();
@@ -21,10 +20,8 @@ public abstract class BasePerkItem : MonoBehaviour
         foreach (var item in _linkedPerks)
         {
             nodes.Add(item.node);
-            Debug.Log(item.node + " " + gameObject.name);
         }
 
         node.SetLinkedNodes(nodes);
     }
-
 }
