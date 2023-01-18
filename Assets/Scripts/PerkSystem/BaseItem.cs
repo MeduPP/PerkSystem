@@ -20,24 +20,6 @@ public class BaseItem : PerkItem
         }
 
         (node as BaseNode).SetNeighboorState();
-        CommonPerkItem.OnPerkStateChanged.Invoke();
-    }
-    private void CheckNodeState()
-    {
-        foreach (var perk in _allPerks)
-        {
-            if (perk is CommonPerkItem)
-                (perk as CommonPerkItem).UpdateState();
-        }
-    }
-
-
-    private void OnEnable()
-    {
-        CommonPerkItem.OnPerkStateChanged += CheckNodeState;
-    }
-    private void OnDisable()
-    {
-        CommonPerkItem.OnPerkStateChanged -= CheckNodeState;
+        CommonPerkItem.OnPerkStateChanged?.Invoke();
     }
 }
