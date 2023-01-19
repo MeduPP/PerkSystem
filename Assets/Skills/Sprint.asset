@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sprint
   m_EditorClassIdentifier: 
   option: 2
-  description: Unlock the ability to sprint
+  description: Unlock the ability to sprint (L. Shift)
   cost: 4
   type: 0

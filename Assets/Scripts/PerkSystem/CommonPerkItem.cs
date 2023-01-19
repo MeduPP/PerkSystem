@@ -8,6 +8,8 @@ public class CommonPerkItem : PerkItem
     //Called when perk state updates 
     public static Action OnPerkStateChanged;
 
+    public NodeState State { get { return (node as CommonNode).nodeState; } } 
+
     public override void Awake()
     {
         node = new CommonNode();
@@ -31,6 +33,11 @@ public class CommonPerkItem : PerkItem
             return true;
         }
         return false;
+    }
+
+    public bool CanForget()
+    {
+        return (node as CommonNode).CanForget();
     }
 
     public bool TryForget()

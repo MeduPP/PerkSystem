@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Jump
   m_EditorClassIdentifier: 
   option: 4
-  description: Unlock the ability to jump
+  description: Unlock the ability to jump (Space)
   cost: 10
   type: 0

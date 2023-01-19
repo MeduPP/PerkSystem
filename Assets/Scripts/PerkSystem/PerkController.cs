@@ -72,7 +72,7 @@ public class PerkController : MonoBehaviour
             skillUnlockUI.Refrash();
         }
     }
-    
+
     //if user click on any perk item
     private void PerkChoosed(CommonPerkItem perkItem)
     {

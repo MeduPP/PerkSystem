@@ -29,10 +29,10 @@ public class SkillUnlockUI : MonoBehaviour
         costText.text = $"Cost: {perkItem.skill.cost}";
         unlockBtn.onClick.RemoveAllListeners();
 
-        switch ((perkItem.node as CommonNode).nodeState)
+        switch (perkItem.State)
         {
             case NodeState.Unlocked:
-                unlockBtn.interactable = (perkItem.node as CommonNode).CanForget();
+                unlockBtn.interactable = perkItem.CanForget();
                 buttonText.text = "Forget";
                 unlockBtn.onClick.AddListener(TryForget);
                 break;

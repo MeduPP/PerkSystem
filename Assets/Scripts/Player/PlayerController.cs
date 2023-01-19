@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         _isJumping = true;
         while(_isJumping)
         {
-            characterController.Move(Vector3.up * (jumpForce += (-9.8f * Time.deltaTime)) * Time.deltaTime);  
+            characterController.Move(Vector3.up * (jumpForce += (Physics.gravity.y * Time.deltaTime)) * Time.deltaTime);  
             _isJumping = !characterController.isGrounded;
             yield return new WaitForFixedUpdate();
         }
