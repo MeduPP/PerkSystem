@@ -1,21 +1,34 @@
 using PerkSystem;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CommonPerkItem), typeof(Image))]
+[RequireComponent(typeof(CommonPerkItem), typeof(Image), typeof(Button))]
 public class PerkItemUI : MonoBehaviour
 {
     [SerializeField] private Color unlockedColor;
     [SerializeField] private Color canUnlockColor;
     [SerializeField] private Color lockedColor;
 
+    //Called when the user presses the perk button 
+    public static Action<CommonPerkItem> OnPerkChoosed;
+
+    private Button button;
     private Image image;
     private CommonPerkItem perkItem;
 
     private void Awake()
     {
+        button = GetComponent<Button>();    
         image = GetComponent<Image>();
         perkItem = GetComponent<CommonPerkItem>();
+
+        button.onClick.AddListener(PerkChoosed);
+    }
+
+    public void PerkChoosed()
+    {
+        OnPerkChoosed?.Invoke(perkItem);
     }
 
     public void UpdateState()

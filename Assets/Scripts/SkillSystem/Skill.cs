@@ -20,6 +20,8 @@ public enum SkillOpton
 public class Skill : ScriptableObject
 {
     public SkillOpton option = SkillOpton.None;
+    public string description;
+    public int cost;
     [HideInInspector]
     public SkillType type = SkillType.None;
 }

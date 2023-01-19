@@ -1,17 +1,17 @@
 using PerkSystem;
 using UnityEngine;
 
-public class BaseItem : PerkItem
+public class RootItem : PerkItem
 {
     public override void Awake()
     {
-        node = new BaseNode();
+        node = new RootNode();
         base.Awake();
     }
 
     private void Start()
     {
-        BaseNode node = this.node as BaseNode;
+        RootNode node = this.node as RootNode;
 
         SetLinkedNodes();
 
@@ -21,8 +21,8 @@ public class BaseItem : PerkItem
             perk.SetLinkedNodes();
         }
 
-        //Set neighboors of base node available to unlock
-        node.SetNeighboorState();
+        //Set neighboors of root node available to unlock
+        node.SetNeighborsState();
 
         CommonPerkItem.OnPerkStateChanged?.Invoke();
     }

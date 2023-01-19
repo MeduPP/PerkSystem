@@ -5,15 +5,17 @@ using UnityEngine;
 public class PerkController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] SkillUnlockUI skillUnlockUI;
     [SerializeField] Player player;
 
+    //cache all existing perk items
     private LinkedList<PerkItem> perkItems = PerkItem.allPerks;
 
     private void OnPerksStateChanged()
     {
         if (playerController == null || player == null)
         {
-            Debug.LogError("All reference must be seted");
+            Debug.LogError("All references must be setted");
             return;
         }
 
@@ -28,7 +30,7 @@ public class PerkController : MonoBehaviour
                 Skill skill = (perk as CommonPerkItem).skill;
                 CommonNode node = (perk as CommonPerkItem).node as CommonNode;
 
-
+                //Seting actual skill values
                 if (node.nodeState == NodeState.Unlocked)
                 {
                     switch (skill.option)
@@ -54,13 +56,43 @@ public class PerkController : MonoBehaviour
         }
     }
 
+    private void TryForgetSkill(CommonPerkItem perkItem)
+    {
+        if (perkItem.TryForget())
+        {
+            player.AddPoints(perkItem.skill.cost);
+            skillUnlockUI.Refrash();
+        }
+    }
+    private void TryUnlockSkill(CommonPerkItem perkItem)
+    {
+        if (perkItem.CanUnlock() && player.TrySpendPoints(perkItem.skill.cost))
+        {
+            perkItem.TryUnlock();
+            skillUnlockUI.Refrash();
+        }
+    }
+    
+    //if user click on any perk item
+    private void PerkChoosed(CommonPerkItem perkItem)
+    {
+        //fill info into form
+        skillUnlockUI?.SetSkillInfo(perkItem, player);
+    }
+
     private void OnEnable()
     {
         CommonPerkItem.OnPerkStateChanged += OnPerksStateChanged;
+        PerkItemUI.OnPerkChoosed += PerkChoosed;
+        skillUnlockUI.OnTryForget += TryForgetSkill;
+        skillUnlockUI.OnTryUnlock += TryUnlockSkill;
     }
 
     private void OnDisable()
     {
         CommonPerkItem.OnPerkStateChanged -= OnPerksStateChanged;
+        PerkItemUI.OnPerkChoosed -= PerkChoosed;
+        skillUnlockUI.OnTryForget -= TryForgetSkill;
+        skillUnlockUI.OnTryUnlock -= TryUnlockSkill;
     }
 }

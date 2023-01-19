@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: SprintSpeedUp
   m_EditorClassIdentifier: 
   option: 3
+  description: Increase sprint speed
+  cost: 20
   type: 1
   boostValue: 2

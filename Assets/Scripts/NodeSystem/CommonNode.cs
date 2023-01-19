@@ -32,7 +32,7 @@ namespace PerkSystem
             }
         }
 
-        public void TryForget()
+        public bool TryForget()
         {
             if (CanForget())
             {
@@ -48,14 +48,17 @@ namespace PerkSystem
                         (node as CommonNode).SetNeighborsUnlockable();
                     }
                 }
+                return true;
             }
+            return false;
         }
 
+        //if the current node is unlocked, set neighbors state to "can unlock" exept alrady unlocked ones.
         public void SetNeighborsUnlockable()
         {
             foreach (var node in LinkedNodes)
             {
-                if (node is BaseNode)
+                if (node is RootNode)
                 {
                     nodeState = NodeState.CanUnlock;
                     return;
@@ -74,6 +77,7 @@ namespace PerkSystem
             }
         }
 
+        //Checking if all neighbors can reach the root node except the current one
         public bool CanForget()
         {
             foreach (var node in LinkedNodes)
@@ -92,13 +96,14 @@ namespace PerkSystem
             return true;
         }
 
+        //Breadth-first search algorithm for all neighbors
         private bool CanReachRootNode(List<Node> visitedNodes)
         {
             visitedNodes.Add(this);
 
             foreach (var node in LinkedNodes)
             {
-                if (node is BaseNode)
+                if (node is RootNode)
                     return true;
 
                 if (!(node is CommonNode) || visitedNodes.Contains(node))

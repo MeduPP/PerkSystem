@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: SpeedUp
   m_EditorClassIdentifier: 
   option: 1
+  description: Speed up
+  cost: 3
   type: 1
   boostValue: 2

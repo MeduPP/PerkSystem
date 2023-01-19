@@ -1,8 +1,8 @@
 namespace PerkSystem
 {
-    public class BaseNode : Node
+    public class RootNode : Node
     {
-        public void SetNeighboorState()
+        public void SetNeighborsState()
         {
             //by default, we can unlock neighbor nodes of the base node
             foreach (var node in LinkedNodes)

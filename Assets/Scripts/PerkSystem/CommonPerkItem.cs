@@ -5,7 +5,7 @@ using UnityEngine;
 public class CommonPerkItem : PerkItem
 {
     public Skill skill;
-
+    //Called when perk state updates 
     public static Action OnPerkStateChanged;
 
     public override void Awake()
@@ -14,7 +14,13 @@ public class CommonPerkItem : PerkItem
         base.Awake();
     }
 
-    public void TryUnlock()
+    public bool CanUnlock()
+    {
+        CommonNode node = this.node as CommonNode;
+        return node.nodeState == NodeState.CanUnlock;
+    }
+
+    public bool TryUnlock()
     {
         CommonNode node = this.node as CommonNode;
 
@@ -22,14 +28,21 @@ public class CommonPerkItem : PerkItem
         {
             node.UnlockPerk();
             OnPerkStateChanged?.Invoke();
-            return;
+            return true;
         }
+        return false;
+    }
+
+    public bool TryForget()
+    {
+        CommonNode node = this.node as CommonNode;
 
         if (node.nodeState == NodeState.Unlocked)
         {
-            node.TryForget();
-            OnPerkStateChanged?.Invoke();
-            return;
+            bool result = node.TryForget();
+            if(result) OnPerkStateChanged?.Invoke();
+            return result;
         }
+        return false;
     }
 }

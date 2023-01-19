@@ -4,23 +4,18 @@ using UnityEngine;
 public class PointsUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text pointsText;
-    [SerializeField] private Player player;
-    private void Start()
-    {
-        SetPointsValue();
-    }
 
-    private void SetPointsValue()
+    private void SetPointsValue(int value)
     {
-        pointsText.SetText($"Points: {player.Points}");
+        pointsText.SetText($"Points: {value}");
     }
     private void OnEnable()
     {
-        player.OnPointsChanged += SetPointsValue;
+        Player.OnPointsChanged += SetPointsValue;
     }
 
     private void OnDisable()
     {
-        player.OnPointsChanged -= SetPointsValue;
+        Player.OnPointsChanged -= SetPointsValue;
     }
 }

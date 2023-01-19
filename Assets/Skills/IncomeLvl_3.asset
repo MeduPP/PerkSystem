@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: IncomeLvl_3
   m_EditorClassIdentifier: 
   option: 5
+  description: Income increase
+  cost: 30
   type: 2
   boostValue: 1

@@ -4,8 +4,16 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private int _points = 0;
+    //Income points per one picked up.
     private int _incomeValue = 1;
-    public Action OnPointsChanged;
+    //Called when the points value changes.
+    public static Action<int> OnPointsChanged;
+
+    private void Start()
+    {
+        OnPointsChanged?.Invoke(Points);
+    }
+
     public int Points 
     { 
         get { return _points; } 
@@ -25,7 +33,7 @@ public class Player : MonoBehaviour
     public void AddPoints(int value)
     {
         Points += value;
-        OnPointsChanged?.Invoke();
+        OnPointsChanged?.Invoke(Points);
     }
 
     public bool TrySpendPoints(int cost)
@@ -33,7 +41,7 @@ public class Player : MonoBehaviour
         if(Points >= cost)
         {
             Points -= cost;
-            OnPointsChanged?.Invoke();
+            OnPointsChanged?.Invoke(Points);
             return true;
         }
         return false;
@@ -45,7 +53,6 @@ public class Player : MonoBehaviour
         {
             if(other.TryGetComponent(out Point gate))
             {
-                //tryPeackUpGate
                 AddPoints(_incomeValue);
                 gate.SelfDestroy();
             }

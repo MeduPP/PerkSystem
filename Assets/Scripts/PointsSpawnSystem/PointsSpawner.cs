@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointSpawner : MonoBehaviour
+public class PointsSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _pointPrefab;
     [SerializeField] private int _pointsValue = 4;
