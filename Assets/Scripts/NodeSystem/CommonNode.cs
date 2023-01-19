@@ -98,7 +98,6 @@ namespace PerkSystem
 
             foreach (var node in LinkedNodes)
             {
-
                 if (node is BaseNode)
                     return true;
 

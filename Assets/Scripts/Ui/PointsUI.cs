@@ -7,16 +7,20 @@ public class PointsUI : MonoBehaviour
     [SerializeField] private Player player;
     private void Start()
     {
-        pointsText.SetText($"Points: {player.Points}");
+        SetPointsValue();
     }
 
+    private void SetPointsValue()
+    {
+        pointsText.SetText($"Points: {player.Points}");
+    }
     private void OnEnable()
     {
-        
+        player.OnPointsChanged += SetPointsValue;
     }
 
     private void OnDisable()
     {
-        
+        player.OnPointsChanged -= SetPointsValue;
     }
 }

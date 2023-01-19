@@ -1,8 +1,11 @@
 using PerkSystem;
 using System;
+using UnityEngine;
 
 public class CommonPerkItem : PerkItem
 {
+    public Skill skill;
+
     public static Action OnPerkStateChanged;
 
     public override void Awake()
@@ -13,16 +16,18 @@ public class CommonPerkItem : PerkItem
 
     public void TryUnlock()
     {
-        if ((node as CommonNode).nodeState == NodeState.CanUnlock)
+        CommonNode node = this.node as CommonNode;
+
+        if (node.nodeState == NodeState.CanUnlock)
         {
-            (node as CommonNode).UnlockPerk();
+            node.UnlockPerk();
             OnPerkStateChanged?.Invoke();
             return;
         }
 
-        if ((node as CommonNode).nodeState == NodeState.Unlocked)
+        if (node.nodeState == NodeState.Unlocked)
         {
-            (node as CommonNode).TryForget();
+            node.TryForget();
             OnPerkStateChanged?.Invoke();
             return;
         }

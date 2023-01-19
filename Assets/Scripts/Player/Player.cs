@@ -4,8 +4,23 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private int _points = 0;
+    private int _incomeValue = 1;
     public Action OnPointsChanged;
-    public int Points { get { return _points; } private set { _points = value; } }
+    public int Points 
+    { 
+        get { return _points; } 
+        private set { _points = value; } 
+    }
+    public int IncomeValue 
+    {
+        get { return _incomeValue; } 
+        set { _incomeValue = (value >= 1) ? value : 1; }
+    }
+
+    public void ResetBoosts()
+    {
+        _incomeValue = 1;
+    }
 
     public void AddPoints(int value)
     {
@@ -30,9 +45,9 @@ public class Player : MonoBehaviour
         {
             if(other.TryGetComponent(out Point gate))
             {
-                Points++;
+                //tryPeackUpGate
+                AddPoints(_incomeValue);
                 gate.SelfDestroy();
-                OnPointsChanged?.Invoke();
             }
         }
     }

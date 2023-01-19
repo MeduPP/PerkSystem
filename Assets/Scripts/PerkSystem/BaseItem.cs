@@ -11,15 +11,19 @@ public class BaseItem : PerkItem
 
     private void Start()
     {
+        BaseNode node = this.node as BaseNode;
+
         SetLinkedNodes();
-        //Set all links from view to system
-        foreach(var perk in _allPerks)
+
+        //Set all links for node system
+        foreach(var perk in allPerks)
         {
             perk.SetLinkedNodes();
-            Debug.Log("1");
         }
 
-        (node as BaseNode).SetNeighboorState();
+        //Set neighboors of base node available to unlock
+        node.SetNeighboorState();
+
         CommonPerkItem.OnPerkStateChanged?.Invoke();
     }
 }

@@ -40,7 +40,6 @@ public class PointSpawner : MonoBehaviour
                     Instantiate(_pointPrefab, _spawnPoints[randPoint].transform.position, Quaternion.identity);
                     _spawnPoints[randPoint].IsUsed = true;
                     IsPointSpawned = true;
-                    Debug.Log("spawn1");
                 }
                 attemptsCount++;
             }
